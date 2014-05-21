@@ -68,7 +68,7 @@
 // @author         Tomy
 // @copyright      2010+, Tomy
 // @grants         none
-// @downloadURL    https://userscripts.org:8080/scripts/source/95465.user.js
+// @downloadURL    https://raw.githubusercontent.com/tomy2105/wod/master/bbcode_generator.user.js
 
 // ==/UserScript==
 
