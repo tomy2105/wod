@@ -69,7 +69,7 @@ function DebugMsg(Data)
 //-----------------------------------------------------------------------------
 
 var DEBUG = true;
-var VER = "1.2";
+var VER = "1.3";
 
 var globalVars = {
       "en" : {

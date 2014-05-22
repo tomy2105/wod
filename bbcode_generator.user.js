@@ -182,7 +182,7 @@ function DebugMsg(Data)
 //-----------------------------------------------------------------------------
 
 var DEBUG = true;
-var VER = "1.7";
+var VER = "1.9";
 var LOCAL_VAR_NAME = "WOD_BBCode_Creator_Script";
 
 var Result = undefined;
