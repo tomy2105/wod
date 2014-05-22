@@ -68,7 +68,7 @@
 // @namespace      tomy
 // @description    Generates BBCode for in game forum from the content of the current page
 // @include        http*://*.world-of-dungeons.*
-// @version        1.8
+// @version        1.9
 // @contributor    Finargol
 // @author         Tomy
 // @copyright      2010+, Tomy
