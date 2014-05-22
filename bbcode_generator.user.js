@@ -489,7 +489,7 @@ function OnCreateBB()
         } 
 
         CreateResult();
-        Result.innerHTML = "[url=http://userscripts.org/scripts/show/95465][size=9]" + Contents.Copyright + " v" + VER + "[/size][/url]\r\n" + text;
+        Result.innerHTML = "[url=https://raw.githubusercontent.com/tomy2105/wod/master/bbcode_generator.user.js][size=9]" + Contents.Copyright + " v" + VER + "[/size][/url]\r\n" + text;
 
         if (KeyButton.className == "button_disabled")
             KeyButton.className = "button";
