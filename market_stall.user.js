@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+Ôªø//-----------------------------------------------------------------------------
 // [WoD] Market Stall
 // Version 1.3, 2014-05-22
 // Copyright (c) Tomy
@@ -86,14 +86,14 @@ var globalVars = {
     }
     , "fr" : {
           titleConsumable: "Consommables"
-        , titleTreasury: "TrÈsors"
-        , linkMarket: "marchÈ"
-		, copyright: "CrÈÈ avec Market Stall"                             
+        , titleTreasury: "Tr√©sors"
+        , linkMarket: "march√©"
+		, copyright: "Cr√©√© avec Market Stall"                             
         , order: [
             "tete", "visage", "oreilles", "cou", "torse", "cape",
             "gants", "bras", "jambes", "pied", "anneau",
             "main droite", "main gauche", "les deux mains", "d'une main",
-            "ceinture", "sac", "dÈcoration", "Non Èquipable"
+            "ceinture", "sac", "d√©coration", "Non √©quipable"
         ]
     }
     , "de" : {
@@ -102,9 +102,9 @@ var globalVars = {
         , linkMarket: "markt"
 		, copyright: "Erstellt mit Market Stall"                          
         , order: [
-			"Kopf", "Ohren", "Brille", "Halskette", "Torso", "G¸rtel", 
-			"Umhang", "Schultern", "Arme", "Handschuhe", "Beide H‰nde", 
-			"Waffenhand", "Schildhand", "Einh‰ndig", "Beine", "F¸ﬂe", 
+			"Kopf", "Ohren", "Brille", "Halskette", "Torso", "G√ºrtel", 
+			"Umhang", "Schultern", "Arme", "Handschuhe", "Beide H√§nde", 
+			"Waffenhand", "Schildhand", "Einh√§ndig", "Beine", "F√º√üe", 
 			"Orden", "Tasche", "Ring", "Nicht tragbar"
         ]
     }
@@ -126,10 +126,10 @@ var globalVars = {
         , linkMarket: "mercado"
 		, copyright: "Creado con el Market Stall"                         
         , order: [
-			"Cabeza", "Rostro", "OÌdos", "Collar", "Torso", "Capa", "Guantes", 
+			"Cabeza", "Rostro", "O√≠dos", "Collar", "Torso", "Capa", "Guantes", 
 			"Brazos", "Piernas", "Pies", "Companero", "Anillo", "Mano derecha", 
-			"Mano izquierda", "Las dos manos", "Izqu. o derecha", "CondecoraciÛn", 
-			"CinturÛn", "Bolso", "No equipable"
+			"Mano izquierda", "Las dos manos", "Izqu. o derecha", "Condecoraci√≥n", 
+			"Cintur√≥n", "Bolso", "No equipable"
         ]
     }
     , "pl" : {
@@ -150,10 +150,10 @@ var globalVars = {
         , linkMarket: "pijaca"
 		, copyright: "Napravljeno sa Market Stall-om"
         , order: [
-			"Glava", "Uöi", "NaoËale", "LanËiÊ", "Torzo", "Pojas", 
-			"OgrtaË", "Ruke", "Rukavice", "Obje ruke", "Ruka za oruûje", 
-			"Ruka za ötit", "Jednoruk", "Noge", "Stopala", "Medalja", "Torba", 
-			"Prsten", "Ne moûe se nositi"
+			"Glava", "U≈°i", "Naoƒçale", "Lanƒçiƒá", "Torzo", "Pojas", 
+			"Ogrtaƒç", "Ruke", "Rukavice", "Obje ruke", "Ruka za oru≈æje", 
+			"Ruka za ≈°tit", "Jednoruk", "Noge", "Stopala", "Medalja", "Torba", 
+			"Prsten", "Ne mo≈æe se nositi"
         ]
     }
 };
