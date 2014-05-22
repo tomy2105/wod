@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // [WoD] Market Stall
 // Version 1.3, 2014-05-22
 // Copyright (c) Tomy
@@ -145,7 +145,7 @@ var globalVars = {
         ]
     }
     , "hr" : {
-          titleConsumable: "Potrosni materijal"
+          titleConsumable: "Potrošni materijal"
         , titleTreasury: "Trezor"
         , linkMarket: "pijaca"
 		, copyright: "Napravljeno sa Market Stall-om"
@@ -281,7 +281,7 @@ function ParseTreasure(text)
 function ConvertToBB(items) 
 {
 	var lastSize = 0;
-	var totalRet = "\r\n[size=20]" + localVars.titleTreasury + "[/size]" + "\r\n[url=http://userscripts.org/scripts/show/93164][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]\r\n";
+	var totalRet = "\r\n[size=20]" + localVars.titleTreasury + "[/size]" + "\r\n[url=https://raw.githubusercontent.com/tomy2105/wod/master/market_stall.user.js][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]\r\n";
 	
 	for (var k = 0; k < localVars.order.length; ++k) {
 		var ret = "";
@@ -311,7 +311,7 @@ function ConvertToBB(items)
 		}
 		
 		if (lastSize + ret.length > 65000) {
-			totalRet += "\r\n\r\n====================================================================================================\r\n" + "\r\n[url=http://userscripts.org/scripts/show/93164][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]";
+			totalRet += "\r\n\r\n====================================================================================================\r\n" + "\r\n[url=https://raw.githubusercontent.com/tomy2105/wod/master/market_stall.user.js][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]";
 			totalRet += ret;
 			lastSize = ret.length;
 		} else {
@@ -323,7 +323,7 @@ function ConvertToBB(items)
 	totalRet += "\r\n\r\n====================================================================================================\r\n";
 	
 	var lastSize = 0;
-	totalRet += "\r\n\r\n\r\n\r\n[size=20]" + localVars.titleConsumable + "[/size]" + "\r\n[url=http://userscripts.org/scripts/show/93164][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]\r\n";
+	totalRet += "\r\n\r\n\r\n\r\n[size=20]" + localVars.titleConsumable + "[/size]" + "\r\n[url=https://raw.githubusercontent.com/tomy2105/wod/master/market_stall.user.js][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]\r\n";
 	
 	for (var k = 0; k < localVars.order.length; ++k) {
 		var ret = "";
@@ -352,7 +352,7 @@ function ConvertToBB(items)
 		}
 
 		if (lastSize + ret.length > 65000) {
-			totalRet += "\r\n\r\n====================================================================================================\r\n" + "\r\n[url=http://userscripts.org/scripts/show/93164][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]";
+			totalRet += "\r\n\r\n====================================================================================================\r\n" + "\r\n[url=https://raw.githubusercontent.com/tomy2105/wod/master/market_stall.user.js][size=9]" + localVars.copyright + " v" + VER + "[/size][/url]";
 			totalRet += ret;
 			lastSize = ret.length;
 		} else {
