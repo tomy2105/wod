@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // [WoD] BBCode generator
-// Version 1.8, 2014-05-21
+// Version 1.9, 2014-05-22
 //
 // Script aimed at players of World Of Dungeons. Generates BBCode for in game forum from the content of the current page
 //
@@ -11,6 +11,11 @@
 
 //-----------------------------------------------------------------------------
 // Changelog
+//
+// 1.9
+// - font, size and color skipped for h1 header (so it can use custom WOD font)
+// - fixed grant metadata
+//
 // 1.8
 // - small fix for french server redirects
 // - grant/downloadURL metadata added
@@ -67,7 +72,8 @@
 // @contributor    Finargol
 // @author         Tomy
 // @copyright      2010+, Tomy
-// @grants         none
+// @grant          GM_getValue
+// @grant          GM_setValue
 // @downloadURL    https://raw.githubusercontent.com/tomy2105/wod/master/bbcode_generator.user.js
 
 // ==/UserScript==
@@ -472,7 +478,7 @@ function OnCreateBB()
             hints_parent.removeChild(hints);
         }
         
-        var text = CreateBB(MainContent, "", "", "");
+        var text = CreateBB(MainContent, "", "", "", false);
 
         if (hints != undefined) {
             hints_parent.appendChild(hints);
@@ -499,7 +505,7 @@ function GetName(name) {
     return name;
 }
 
-function CreateBB(node, size, color, font) {
+function CreateBB(node, size, color, font, insideHeading) {
     var text = "";
     var addStart = "";
     var nodeName = node.nodeName.toLowerCase();
@@ -649,19 +655,23 @@ function CreateBB(node, size, color, font) {
     if (children.length > 0) {
 		var styles = getFontProps(node);
         for (var j = 0; j < children.length; ++j) {
-            text += CreateBB(children[j], styles.size, styles.color, styles.font);
+            text += CreateBB(children[j], styles.size, styles.color, styles.font, nodeName == "h1");
         }
     } else {
         if (node.textContent.trim().length > 0) {
-            if (color != "") text += "[color=" + color + "]";
-            if (size != "") text += "[size=" + size + "]";
-            if (font != "") text += "[font=" + font + "]";
+            if (!insideHeading) {
+               if (color != "") text += "[color=" + color + "]";
+               if (size != "") text += "[size=" + size + "]";
+               if (font != "") text += "[font=" + font + "]";
+            }
 
             text += " " + node.textContent.replace(/[\n\r]/g," ").replace(/\t|^[\t|\s]+|[\t|\s]+$/g, "") + " ";
 
-            if (font != "") text += "[/font]";
-            if (size != "") text += "[/size]";
-            if (color != "") text += "[/color]";
+            if (!insideHeading) {
+               if (font != "") text += "[/font]";
+               if (size != "") text += "[/size]";
+               if (color != "") text += "[/color]";
+            }
         }
     }
 
