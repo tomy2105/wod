@@ -1,5 +1,5 @@
 // [WoD] Extra Equipment Stats
-// Version 1.11, 2014-05-22
+// Version 1.12, 2014-06-13
 // Script aimed at players of World Of Dungeons. Displays number of extra stats your armor gives you. 
 //
 // When you enter your attributes page, a new button will appear at the bottom of page.
@@ -9,6 +9,9 @@
 
 //-----------------------------------------------------------------------------
 // Changelog
+// 1.12
+// - first try at fixing set item boni multiple calculation
+//
 // 1.11
 // - grant/downloadURL metadata added
 //
@@ -80,7 +83,7 @@
 // @namespace		tomy
 // @description		Displays number of extra stats your armor gives you.
 // @include			http*://*.world-of-dungeons.*/wod/spiel/hero/attributes.php*
-// @version			1.11
+// @version			1.12
 // @author			Tomy
 // @contributor     Finargol, taitoune, Mastermage
 // @copyright		2010+, Tomy
@@ -89,8 +92,8 @@
 // @downloadURL     https://raw.githubusercontent.com/tomy2105/wod/master/extra_equipment_stats.user.js
 // ==/UserScript==
 
-var DEBUG = true;
-var VER = "1.11";
+var DEBUG = false;
+var VER = "1.12";
 var LOCAL_VAR_NAME = "WOD ARMOR STATS " + location.host;
 
 var Equipment = false;
@@ -261,6 +264,8 @@ var Contents = {
         , Damage_Effect     : "is added upon normal / good / critical hits as an additional <i>effect</i> to the weapon used."
 		, Rounding			: Math.floor
 		, All_Hits			: "by normal / good / critical hits"
+		, Details			: "details"
+		, Set				: "Set"
     },
     "fr" : {
 		  Button_Name		: "Calculer les stats"
@@ -307,6 +312,8 @@ var Contents = {
 		, Damage_Effect     : "lors de coups normaux / complets / critiques, est ajouté a l'effet de l'arme utilisée."
 		, Rounding			: Math.round
 		, All_Hits			: "lors de succès normaux / complets / critiques"
+		, Details			: "details"
+		, Set				: "Set"
 	},
 	"de" : {
 		  Button_Name		: "Berechne Ausrüstungs-Boni"
@@ -353,6 +360,8 @@ var Contents = {
 		, Damage_Effect     : "wird bei normalen / guten / kritischen Treffern zur <i>Wirkung</i> der benutzten Waffe addiert."
 		, Rounding			: Math.floor
 		, All_Hits			: "bei normalen / guten / kritischen Treffern"
+		, Details			: "details"
+		, Set				: "Set"
 	}
 };
 
@@ -846,8 +855,21 @@ function ParseItem(index, Document) {
 	var allChildren = undefined;
 	var okH2 = Equipment[index].okH2;
 
+	var setName = undefined;
+	var allH2 = Document.getElementsByTagName("h2");
+	if (allH2 != undefined) {
+		for (var j = 0; j < allH2.length && setName == undefined; ++j) {
+			if(trim(allH2[j].textContent) == Contents.Details) {
+				var allTDs = allH2[j].nextSibling.nextSibling.getElementsByTagName("td");
+				for (var k = 0; k < (allTDs.length - 1) && setName == undefined; ++k) {
+					if (trim(allTDs[k].textContent) == Contents.Set)
+						setName = trim(allTDs[k + 1].textContent);
+				}
+			}
+		}
+	}
+	
 	if (okH2 != undefined) {
-		var allH2 = Document.getElementsByTagName("h2");
 		for (var i = 0; i < allH2.length; ++i) {
 			if (allH2[i].textContent == okH2) {
 				allChildren = allH2[i].parentNode.childNodes;
@@ -876,6 +898,7 @@ function ParseItem(index, Document) {
 
 				for (var k = 0; k < parsed.length; ++k) {
 					if (MandatoryProps.hasOwnProperty(name) && CheckProperties(name, parsed[k], MandatoryProps[name])) {
+						var set_name = (setName != undefined && parsed[k].IsGem) ? setName : undefined;
 						if (name == Contents.Attr_Bonus) {
 							if (parsed[k][Contents.Modifier].endsWith(Contents.Used_With)) {
 								PushWithCreateSubarrays(Attribs, 
@@ -883,6 +906,7 @@ function ParseItem(index, Document) {
 									{	  value		: Value.Parse(parsed[k][Contents.Modifier].removeRight(Contents.Used_With))
 										, item		: index
 										, used_with	: true
+										, set_name	: set_name
 									}
 								);
 							}
@@ -893,6 +917,7 @@ function ParseItem(index, Document) {
 									{	  value		: Value.Parse(parsed[k][Contents.Modifier].removeRight(Contents.Used_With))
 										, item		: index
 										, used_with	: true
+										, set_name	: set_name
 									}
 								);
 							}
@@ -902,6 +927,7 @@ function ParseItem(index, Document) {
 								{	  value		: Value.Parse(parsed[k][Contents.Modifier].removeRight(Contents.Used_With))
 									, item		: index
 									, used_with	: parsed[k][Contents.Modifier].endsWith(Contents.Used_With)
+									, set_name	: set_name
 								}
 							);
 						} else if (name == Contents.Damage_Taken) {
@@ -911,6 +937,7 @@ function ParseItem(index, Document) {
 									, item			: index
 									, in_addition	: parsed[k][Contents.BonusR].endsWith(Contents.Dmg_With)
 									, used_with		: parsed[k][Contents.Attack_Type].endsWith(Contents.Used_With)
+									, set_name	: set_name
 								}
 							);
 						} else if (name == Contents.Attack_Bonus) {
@@ -919,6 +946,7 @@ function ParseItem(index, Document) {
 								{	  value		: Value.Parse(parsed[k][Contents.Modifier].removeRight(Contents.Used_With))
 									, item		: index
 									, used_with	: parsed[k][Contents.Modifier].endsWith(Contents.Used_With)
+									, set_name	: set_name
 								}
 							);
 						} else if (name == Contents.Damage_Bonus) {
@@ -928,6 +956,7 @@ function ParseItem(index, Document) {
 									, item			: index
 									, in_addition	: parsed[k][Contents.Damage_BonusR].endsWith(Contents.Dmg_With)
 									, used_with		: parsed[k][Contents.Attack_Type].endsWith(Contents.Used_With)
+									, set_name	: set_name
 								}
 							);
 						} else if (name == Contents.Defense_Bonus) {
@@ -936,6 +965,7 @@ function ParseItem(index, Document) {
 								{	  value		: Value.Parse(parsed[k][Contents.Modifier].removeRight(Contents.Used_With))
 									, item		: index
 									, used_with	: parsed[k][Contents.Modifier].endsWith(Contents.Used_With)
+									, set_name	: set_name
 								}
 							);
 						} 
@@ -993,8 +1023,13 @@ function AddTable(heroID, Where, Data, heading, headers, desc)
 		var disp = "<table style=\"font-size: 10px;\">";
 		var last_disp = "";
 		var cnt = 0;
+		var sets = new Array();
 		for (var i = 0; i < Data[k].length; ++i) {
 			if (Data[k][i].used_with) continue;
+			if (Data[k][i].set_name != undefined) {
+				if (sets.indexOf(Data[k][i].set_name) != -1) continue;
+				sets.push(Data[k][i].set_name);
+			}
 			total = total.Add(Data[k][i].value.Mult(Equipment[Data[k][i].item].count));
 			disp += "<tr><td>" + GetEquipmentHref(Data[k][i].item, true) + "</td><td>" + Data[k][i].value.Mult(Equipment[Data[k][i].item].count).Html() + "</td></tr>";
 			last_disp = GetEquipmentHref(Data[k][i].item, true);
@@ -1013,6 +1048,7 @@ function AddTable(heroID, Where, Data, heading, headers, desc)
 			);
 			j++;
 		}
+
 		for (var i = 0; i < Data[k].length; ++i) {
 			if (!Data[k][i].used_with) continue;
 			txt += AddTableRow(false, j, 
@@ -1050,8 +1086,14 @@ function AddTableEx(heroID, Where, Data, heading, headers, negative)
 			var disp = "<table style=\"font-size: 10px;\">";
 			var last_disp = "";
 			var cnt = 0;
+
+			var sets = new Array();
 			for (var i = 0; i < Data[k][l].length; ++i) {
 				if (Data[k][l][i].used_with || Data[k][l][i].in_addition) continue;
+				if (Data[k][l][i].set_name != undefined) {
+					if (sets.indexOf(Data[k][l][i].set_name) != -1) continue;
+					sets.push(Data[k][l][i].set_name);
+				}
 				total = total.Add(Data[k][l][i].value.Mult(Equipment[Data[k][l][i].item].count));
 				disp += "<tr><td>" + GetEquipmentHref(Data[k][l][i].item, true) + "</td><td>" + Data[k][l][i].value.Mult(Equipment[Data[k][l][i].item].count).Html(negative) + "</td></tr>";
 				last_disp = GetEquipmentHref(Data[k][l][i].item, true);
@@ -1075,8 +1117,13 @@ function AddTableEx(heroID, Where, Data, heading, headers, negative)
 			disp = "<table style=\"font-size: 10px;\">";
 			last_disp = "";
 			cnt = 0;
+			sets = new Array();
 			for (var i = 0; i < Data[k][l].length; ++i) {
 				if (Data[k][l][i].used_with || !Data[k][l][i].in_addition) continue;
+				if (Data[k][l][i].set_name != undefined) {
+					if (sets.indexOf(Data[k][l][i].set_name) != -1) continue;
+					sets.push(Data[k][l][i].set_name);
+				}
 				total = total.Add(Data[k][l][i].value.Mult(Equipment[Data[k][l][i].item].count));
 				disp += "<tr><td>" + GetEquipmentHref(Data[k][l][i].item, true) + "</td><td>" + Data[k][l][i].value.Mult(Equipment[Data[k][l][i].item].count).Html(negative) + "</td></tr>";
 				last_disp = GetEquipmentHref(Data[k][l][i].item, true);
@@ -1159,9 +1206,14 @@ function ParseTable(Document) {
 		} else {
 			var allTDs = tr.getElementsByTagName("td");
 			var row = new Object();
+			var isGem = false;
 			for (var k = 0; k < allTDs.length; ++k) {
 				row[names[k]]=allTDs[k].textContent.trim().space_clear();
+				if (allTDs[k].innerHTML.indexOf("by_gem\">") != -1) {
+					isGem = true;
+				}
 			}
+			row["IsGem"] = isGem;
 			ret.push(row);
 		}
 	}
