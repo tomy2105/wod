@@ -628,7 +628,7 @@ function CreateBB(node, size, color, font, insideHeading) {
 			return "";
 	} else if (nodeName=="input") {
 		var type = node.getAttribute("type");
-		if (type=="checkbox" || type == "file" || type == "hidden" || type == "radio" || type == "password")
+		if (type=="checkbox" || type == "file" || type == "hidden" || type == "radio" || type == "password" || type == "button")
 			return "";
 
 		var inputClass = node.getAttribute("class");
