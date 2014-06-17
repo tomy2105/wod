@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // [WoD] BBCode generator
-// Version 1.9, 2014-05-22
+// Version 1.10, 2014-06-17
 //
 // Script aimed at players of World Of Dungeons. Generates BBCode for in game forum from the content of the current page
 //
@@ -11,6 +11,11 @@
 
 //-----------------------------------------------------------------------------
 // Changelog
+//
+// 1.10
+// - improved detection of ignored images
+// - skipping hidden nodes
+// - skipping buttons and text on them
 //
 // 1.9
 // - font, size and color skipped for h1 header (so it can use custom WOD font)
@@ -68,7 +73,7 @@
 // @namespace      tomy
 // @description    Generates BBCode for in game forum from the content of the current page
 // @include        http*://*.world-of-dungeons.*
-// @version        1.9
+// @version        1.10
 // @contributor    Finargol
 // @author         Tomy
 // @copyright      2010+, Tomy
@@ -181,8 +186,8 @@ function DebugMsg(Data)
 // "global" variables
 //-----------------------------------------------------------------------------
 
-var DEBUG = true;
-var VER = "1.9";
+var DEBUG = false;
+var VER = "1.10";
 var LOCAL_VAR_NAME = "WOD_BBCode_Creator_Script";
 
 var Result = undefined;
@@ -265,12 +270,12 @@ var NewLineBefore = ["h1", "h2", "h3", "h4", "h5", "li", "br"];
 var NewLineAfter = ["tr"];
 
 var IgnoredImages = [
-      "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/icons/reset.gif"
-    , "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/icons/steigern_disabled.gif"
-    , "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/icons/undo_steigern_enabled.gif"
-    , "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/icons/steigern_enabled.gif"
-    , "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/icons/inf.gif" 
-    , "http://skins.world-of-dungeons.net/skins/finals/skin-2/images/page/spacer.gif"
+      "/images/icons/reset.gif"
+    , "/images/icons/steigern_disabled.gif"
+    , "/images/icons/undo_steigern_enabled.gif"
+    , "/images/icons/steigern_enabled.gif"
+    , "/images/icons/inf.gif" 
+    , "/images/page/spacer.gif"
 ]
 
 var SpecialURLs = [
@@ -511,6 +516,12 @@ function CreateBB(node, size, color, font, insideHeading) {
     var nodeName = node.nodeName.toLowerCase();
     var displayed = (NotDisplayed.indexOf(nodeName) == -1)
 
+	if (node.nodeType == 1) {
+		var itemClass = node.getAttribute("class");
+		if (itemClass != undefined && itemClass.indexOf("hidden") != -1)
+			return "";
+	}
+
     if (nodeName == "a") {
         var url = node.getAttribute("href");
         
@@ -566,8 +577,13 @@ function CreateBB(node, size, color, font, insideHeading) {
         if (align == "bottom" || align == "top") align = null;
         if (valign == "left" || valign == "right") valign = null;
         
-        if (src == null || IgnoredImages.indexOf(src) != -1)
+        if (src == null)
             return "";
+			
+        for (var k = 0; k < IgnoredImages.length; ++k) {
+                if (src.endsWith(IgnoredImages[k]))
+                        return "";
+        }
             
         if (src.startsWith("/wod/css/img/") && alt != null)
             return alt;
@@ -613,6 +629,10 @@ function CreateBB(node, size, color, font, insideHeading) {
 	} else if (nodeName=="input") {
 		var type = node.getAttribute("type");
 		if (type=="checkbox" || type == "file" || type == "hidden" || type == "radio" || type == "password")
+			return "";
+
+		var inputClass = node.getAttribute("class");
+		if (type=="submit" && inputClass.indexOf("button") != -1) 
 			return "";
 
 		var value = node.getAttribute("value");
