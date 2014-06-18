@@ -1,5 +1,5 @@
 // [WoD] Extra Equipment Stats
-// Version 1.12, 2014-06-13
+// Version 1.13, 2014-06-18
 // Script aimed at players of World Of Dungeons. Displays number of extra stats your armor gives you. 
 //
 // When you enter your attributes page, a new button will appear at the bottom of page.
@@ -9,6 +9,10 @@
 
 //-----------------------------------------------------------------------------
 // Changelog
+// 1.13
+// - updating german and french set related translations
+// - "Created with" link added 
+//
 // 1.12
 // - first try at fixing set item boni multiple calculation
 //
@@ -83,7 +87,7 @@
 // @namespace		tomy
 // @description		Displays number of extra stats your armor gives you.
 // @include			http*://*.world-of-dungeons.*/wod/spiel/hero/attributes.php*
-// @version			1.12
+// @version			1.13
 // @author			Tomy
 // @contributor     Finargol, taitoune, Mastermage
 // @copyright		2010+, Tomy
@@ -93,7 +97,7 @@
 // ==/UserScript==
 
 var DEBUG = false;
-var VER = "1.12";
+var VER = "1.13";
 var LOCAL_VAR_NAME = "WOD ARMOR STATS " + location.host;
 
 var Equipment = false;
@@ -266,6 +270,7 @@ var Contents = {
 		, All_Hits			: "by normal / good / critical hits"
 		, Details			: "details"
 		, Set				: "Set"
+        , Copyright         : "Created with Extra Equipment Stats"
     },
     "fr" : {
 		  Button_Name		: "Calculer les stats"
@@ -312,8 +317,9 @@ var Contents = {
 		, Damage_Effect     : "lors de coups normaux / complets / critiques, est ajouté a l'effet de l'arme utilisée."
 		, Rounding			: Math.round
 		, All_Hits			: "lors de succès normaux / complets / critiques"
-		, Details			: "details"
+		, Details			: "Détails"
 		, Set				: "Set"
+        , Copyright         : "Créé avec Extra Equipment Stats"                             
 	},
 	"de" : {
 		  Button_Name		: "Berechne Ausrüstungs-Boni"
@@ -360,8 +366,9 @@ var Contents = {
 		, Damage_Effect     : "wird bei normalen / guten / kritischen Treffern zur <i>Wirkung</i> der benutzten Waffe addiert."
 		, Rounding			: Math.floor
 		, All_Hits			: "bei normalen / guten / kritischen Treffern"
-		, Details			: "details"
+		, Details			: "Details"
 		, Set				: "Set"
+        , Copyright         : "Erstellt mit Extra Equipment Stats"                          
 	}
 };
 
@@ -1175,7 +1182,7 @@ function AddTableEx(heroID, Where, Data, heading, headers, negative)
 }
 
 function DisplayResult(heroID) {
-	Result.innerHTML = Contents.Title + new Date().toLocaleString();
+	Result.innerHTML = Contents.Title + new Date().toLocaleString() + "<br/>" + "<a target='_blank' href='https://raw.githubusercontent.com/tomy2105/wod/master/extra_equipment_stats.user.js'><span style='font-size: 9px;'>" + Contents.Copyright + " v" + VER + "</span></a>";
 
 	AddTable(heroID, Result, Attribs, Contents.Attr_Bonus, [Contents.Attribute, Contents.Modifier, Contents.Value, Contents.Item], undefined);
 	AddTable(heroID, Result, Level, Contents.Level_Bonus, [Contents.Skill, Contents.Modifier, Contents.Value, Contents.Item], undefined);
