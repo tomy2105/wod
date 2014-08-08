@@ -1,5 +1,5 @@
 // [WoD] Extra Equipment Stats
-// Version 1.13, 2014-06-18
+// Version 1.14, 2014-08-08
 // Script aimed at players of World Of Dungeons. Displays number of extra stats your armor gives you. 
 //
 // When you enter your attributes page, a new button will appear at the bottom of page.
@@ -9,6 +9,9 @@
 
 //-----------------------------------------------------------------------------
 // Changelog
+// 1.14
+// - fixing english Damage Sensitivity
+//
 // 1.13
 // - updating german and french set related translations
 // - "Created with" link added 
@@ -87,7 +90,7 @@
 // @namespace		tomy
 // @description		Displays number of extra stats your armor gives you.
 // @include			http*://*.world-of-dungeons.*/wod/spiel/hero/attributes.php*
-// @version			1.13
+// @version			1.14
 // @author			Tomy
 // @contributor     Finargol, taitoune, Mastermage
 // @copyright		2010+, Tomy
@@ -97,7 +100,7 @@
 // ==/UserScript==
 
 var DEBUG = false;
-var VER = "1.13";
+var VER = "1.14";
 var LOCAL_VAR_NAME = "WOD ARMOR STATS " + location.host;
 
 var Equipment = false;
@@ -234,7 +237,7 @@ var Contents = {
         , Attr_Bonus		: "Attribute bonus"
         , Level_Bonus		: "Bonus for the level of the skill"
         , Effect_Bonus		: "Bonus for the effect of the skill"
-        , Damage_Taken		: "Damage taken from damage types"
+        , Damage_Taken		: "Damage sensitivity"
         , Defense_Bonus		: "Defense bonus"
         , Damage_Bonus		: "Damage bonus"
         , Damage_BonusR		: "Damage Bonus (r)"
