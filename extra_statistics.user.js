@@ -25,6 +25,7 @@
 // @include		http*://*.world-of-dungeons.*/wod/spiel/tournament/*duell.php*
 // @grant          GM_getValue
 // @grant          GM_addStyle
+// @downloadURL    https://raw.githubusercontent.com/tomy2105/wod/master/extra_statistics.user.js
 // ==/UserScript==
 
 //--------------------------------------------------------------------------------------------------------
