@@ -19,3 +19,10 @@ When clicked new page opens displaying bbcode for market stall.
 Generates BBCode for in game forum from the content of the current page.<br/>
 A new button will appear at the left side of each page (below menu).
 Pressing this button will generate BBCode representation of current page and append it at the bottom of the page.
+
+<b>Extra statistics</b><br/>
+Generates additional statistical data in the dungeon and duel report pages.<br/>
+When you entered the details or statistics page of reports, a new button will appear beside the details button. 
+At the details page, the new button is "Extra Stat", which will show the statistics of the current level when you click it. 
+At the statistics page, the new button is "Entire Extra Stat", which will show the statistics of entire dungeon.<br/>
+Script originally developed by <b>Fenghou</b>, hosted here with minor fixes to keep it running with new versions of Greasemonkey.
