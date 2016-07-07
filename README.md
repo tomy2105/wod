@@ -32,4 +32,5 @@ Displays a list of the items found/damaged/used during dungeon exploration in a 
 When you entered the items found page of dungeon reports reports, a tabular list of items found in the dungeon, used while
 exploring dungeon and damaged while exploring dungeon will be shown. <br/>
 In addition dungeon uniques will be shown separately.<br/>
+Script originally developed by <b>Christian Raeuschel and Darkblade</b>, hosted here with minor fixes to keep it running with new 
 versions of Greasemonkey.
