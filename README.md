@@ -26,3 +26,10 @@ When you entered the details or statistics page of reports, a new button will ap
 At the details page, the new button is "Extra Stat", which will show the statistics of the current level when you click it. 
 At the statistics page, the new button is "Entire Extra Stat", which will show the statistics of entire dungeon.<br/>
 Script originally developed by <b>Fenghou</b>, hosted here with minor fixes to keep it running with new versions of Greasemonkey.
+
+<b>WoD-Discoveries</b><br/>
+Displays a list of the items found/damaged/used during dungeon exploration in a table format.<br/>
+When you entered the items found page of dungeon reports reports, a tabular list of items found in the dungeon, used while
+exploring dungeon and damaged while exploring dungeon will be shown. <br/>
+In addition dungeon uniques will be shown separately.<br/>
+versions of Greasemonkey.
